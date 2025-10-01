@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gennarino Conzemius — Work</title>
+  <meta name="description" content="Selected works by New York–based artist Gennarino Conzemius.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Headline: Oswald (condensed, confident). Body: Inter (crisp). -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================
+       THEME — set your background image here
+       ========================================= */
+    :root{
+      --bg-image: url('YOUR-BACKGROUND.jpg'); /* e.g., images/background.jpg */
+      --ink: #0d0f12;          /* near-black text for light panels */
+      --ink-invert: #f1f2f4;   /* light text on dark */
+      --muted: #8e95a0;
+      --paper: #f5f6f7;        /* off-white panel like the reference */
+      --line: rgba(0,0,0,.08); /* hairline for panel edges */
+      --edge: rgba(0,0,0,.14);
+      --gold: #c6a15b;         /* subtle luxe accent (thin rules, tags) */
+      --tint: hsla(160, 35%, 40%, .35); /* greenish overlay (no red) */
+      --tint-stripes: hsla(160, 20%, 60%, .18);
+      --max: 1180px;
+      --radius: 14px;
+      --shadow: 0 24px 70px rgba(0,0,0,.35);
+    }
+
+    /* Base */
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:#0b0c0f; color:var(--ink-invert);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit; text-decoration:none}
+    img{display:block; max-width:100%; height:auto}
+    .container{max-width:var(--max); margin-inline:auto; padding:0 24px}
+
+    /* Fixed background (stays while you scroll) */
+    .fixed-bg{
+      position:fixed; inset:0; z-index:-2;
+      background:
+        /* very subtle grid for that “technical” feel */
+        linear-gradient(0deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/100% 28px,
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/28px 100%,
+        var(--bg-image) center/cover no-repeat fixed;
+      filter: contrast(105%) saturate(98%) brightness(88%);
+    }
+    .fixed-bg::after{
+      content:""; position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse at center, rgba(0,0,0,.0) 20%, rgba(0,0,0,.42) 65%, rgba(0,0,0,.72)),
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));
+    }
+
+    /* Minimal sticky top (you said it's fine to keep) */
+    .site-top{
+      position:sticky; top:0; z-index:5;
+      backdrop-filter: blur(8px) saturate(115%);
+      background:linear-gradient(180deg, rgba(10,11,14,.9), rgba(10,11,14,.65));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .top-inner{min-height:58px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:0 16px}
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+    }
+    .brand-mark{
+      width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+      background:linear-gradient(145deg,#161820,#0b0c10);
+      border:1px solid rgba(255,255,255,.12); box-shadow:0 8px 20px rgba(0,0,0,.35);
+      font-size:12px; font-weight:800;
+    }
+
+    /* =======================
+       Hero “card” like the ref
+       ======================= */
+    .hero-card{
+      margin:34px auto 0;
+      max-width:calc(var(--max) + 48px);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.06);
+      position:relative;
+      isolation:isolate;
+    }
+    /* image + tint + faint “energy” diagonals */
+    .hero-media{
+      position:relative; min-height:56vh; display:grid; align-items:end;
+      background:
+        linear-gradient(115deg, var(--tint), rgba(0,0,0,.15) 60%, transparent 80%),
+        repeating-linear-gradient(110deg, transparent 0 28px, var(--tint-stripes) 28px 32px),
+        var(--bg-image) center/cover no-repeat fixed;
+    }
+    .hero-media::after{
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 65% 60%, rgba(0,0,0,0) 40%, rgba(0,0,0,.45) 75%, rgba(0,0,0,.7));
+      z-index:0;
+    }
+
+    /* in-card tab bar (mirrors the reference “Categories / Timeline …”) */
+    .tabbar{
+      position:absolute; top:14px; left:18px; right:18px; z-index:2;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      color:#e9ebee;
+    }
+    .tabs{
+      display:flex; align-items:center; gap:18px; font-size:.92rem;
+      background:rgba(0,0,0,.28); padding:8px 12px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .tabs a{opacity:.95}
+    .tabs a:hover{opacity:1; text-decoration:underline}
+    .tab-sep{opacity:.45}
+    .tab-icons{display:flex; align-items:center; gap:10px}
+    .icon-btn{
+      width:36px;height:36px;display:grid;place-items:center;cursor:pointer;
+      background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.16); color:#fff; border-radius:10px;
+    }
+
+    .hero-inner{position:relative; z-index:1; padding:80px 28px 46px}
+    .hero-title{
+      font-family:Oswald, Inter, sans-serif; font-weight:700; letter-spacing:.2px;
+      margin:8px 0 6px; line-height:.98;
+      font-size:clamp(42px, 8vw, 110px); color:#fff; /* not forced uppercase */
+      text-shadow:0 16px 40px rgba(0,0,0,.55);
+    }
+    .hero-sub{max-width:900px; color:#e6e7eb; font-size:clamp(17px,2.1vw,21px); margin:0}
+    .view-link{
+      display:inline-flex; align-items:center; gap:8px; margin-top:18px;
+      border:1px solid rgba(255,255,255,.25); border-radius:12px; padding:10px 12px; color:#fff;
+      background:rgba(0,0,0,.25); font-weight:700;
+    }
+    .view-link:hover{filter:brightness(1.05)}
+    .chev-next{
+      position:absolute; right:16px; top:50%; translate:0 -50%;
+      width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+      background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.16); color:#fff; cursor:pointer;
+    }
+
+    /* Paper panel (like the ref lower half) */
+    .panel{
+      background:var(--paper); color:var(--ink);
+      padding:26px 26px 34px; border-top:1px solid var(--edge);
+    }
+    .panel h2{
+      margin:6px 0 8px; font-family:Oswald, Inter, sans-serif; font-weight:600; letter-spacing:.2px;
+      font-size:clamp(26px, 3vw, 36px); color:#101217;
+    }
+    .panel p.lead{margin:0 0 16px; color:#4e5661}
+
+    /* six-up grid styled like the second ref */
+    .work-grid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+    }
+    @media (max-width:980px){ .work-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:560px){ .work-grid{grid-template-columns:1fr} }
+
+    .work-item{
+      position:relative; aspect-ratio:1/1; overflow:hidden; border-radius:12px;
+      border:1px solid rgba(0,0,0,.08); background:#fff;
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+    }
+    .work-item img{width:100%; height:100%; object-fit:cover; transform:scale(1.02); transition:transform .35s ease}
+    .work-item:hover img{transform:scale(1.06)}
+    .work-item .overlay{
+      position:absolute; inset:0; display:flex; align-items:flex-end; padding:12px;
+      background:linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,0));
+      opacity:0; transition:opacity .25s ease; color:#fff;
+    }
+    .work-item:hover .overlay{opacity:1}
+    .tag{display:inline-block; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.2); padding:6px 10px; border-radius:10px; font-weight:700}
+
+    footer{color:#c9cdd3; text-align:center; padding:18px 0 34px}
+    .muted{color:#9aa0a6}
+
+    /* Lightbox */
+    .lightbox[hidden]{display:none}
+    .lightbox{
+      position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.94);
+      display:grid; place-items:center;
+    }
+    .lightbox img{max-width:92vw; max-height:86vh; border-radius:12px; box-shadow:0 30px 70px rgba(0,0,0,.6)}
+    .lb-ctrls{position:fixed; top:16px; right:16px; display:flex; gap:10px}
+    .lb-btn{width:42px; height:42px; display:grid; place-items:center; border-radius:10px; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.18); color:#fff; cursor:pointer}
+    .lb-chevs{position:fixed; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none}
+    .lb-chevs button{pointer-events:auto; width:64px;height:64px;border-radius:50%; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.18); color:#fff; font-size:28px; margin:0 14px; cursor:pointer}
+
+    /* Respect reduce motion */
+    @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed background that stays while scrolling -->
+  <div class="fixed-bg" aria-hidden="true"></div>
+
+  <!-- Minimal sticky top bar (brand only) -->
+  <div class="site-top">
+    <div class="top-inner container">
+      <div class="brand">
+        <div class="brand-mark">GC</div>
+        <div>Gennarino Conzemius <span class="muted">· New York, NY</span></div>
+      </div>
+      <!-- (No duplicate nav here — tabs live inside the hero card like the reference) -->
+    </div>
+  </div>
+
+  <!-- Hero card with in-card tabs + big title (like the screenshot) -->
+  <section class="hero-card">
+    <div class="hero-media">
+      <div class="tabbar">
+        <div class="tabs">
+          <a href="#work">Work</a><span class="tab-sep">•</span>
+          <a href="about.html">About</a><span class="tab-sep">•</span>
+          <a href="https://www.instagram.com/by.gjc/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+        <div class="tab-icons">
+          <a class="icon-btn" href="#work" title="Jump to work">↓</a>
+          <a class="icon-btn" href="about.html" title="About">i</a>
+          <a class="icon-btn" href="https://www.instagram.com/by.gjc/" target="_blank" rel="noopener" title="Instagram">⌁</a>
+        </div>
+      </div>
+
+      <div class="hero-inner container">
+        <h1 class="hero-title">Gennarino Conzemius</h1>
+        <p class="hero-sub">A New York City–based artist whose work bridges realism, surrealism, and contemporary culture.</p>
+
+        <!-- Small, subtle link (not a chunky button) -->
+        <a class="view-link" href="#work">view entries</a>
+      </div>
+
+      <!-- Right chevron, like the reference, scrolls to the work section -->
+      <button class="chev-next" aria-label="Next section" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">›</button>
+    </div>
+
+    <!-- Paper panel (lower half of card) holding the grid) -->
+    <div class="panel">
+      <div class="container">
+        <h2 id="work">Selected work</h2>
+        <p class="lead">Scroll and click a piece to view larger. Add or duplicate items as needed.</p>
+
+        <div class="work-grid" id="grid">
+          <!-- Replace these six with your images; duplicate to add more. -->
+          <a class="work-item" href="#" data-full="https://picsum.photos/id/1011/1600/1600">
+            <img src="https://picsum.photos/id/1011/800/800" alt="Artwork 01">
+            <div class="overlay"><span class="tag">City pulse</span></div>
+          </a>
+
+          <a class="work-item" href="#" data-full="https://picsum.photos/id/1027/1600/1600">
+            <img src="https://picsum.photos/id/1027/800/800" alt="Artwork 02">
+            <div class="overlay"><span class="tag">Portrait study</span></div>
+          </a>
+
+          <a class="work-item" href="#" data-full="https://picsum.photos/id/1036/1600/1600">
+            <img src="https://picsum.photos/id/1036/800/800" alt="Artwork 03">
+            <div class="overlay"><span class="tag">Abstract contrast</span></div>
+          </a>
+
+          <a class="work-item" href="#" data-full="https://picsum.photos/id/1043/1600/1600">
+            <img src="https://picsum.photos/id/1043/800/800" alt="Artwork 04">
+            <div class="overlay"><span class="tag">Surreal merge</span></div>
+          </a>
+
+          <a class="work-item" href="#" data-full="https://picsum.photos/id/1005/1600/1600">
+            <img src="https://picsum.photos/id/1005/800/800" alt="Artwork 05">
+            <div class="overlay"><span class="tag">Detail study</span></div>
+          </a>
+
+          <a class="work-item" href="#" data-full="https://picsum.photos/id/1050/1600/1600">
+            <img src="https://picsum.photos/id/1050/800/800" alt="Artwork 06">
+            <div class="overlay"><span class="tag">Bold forms</span></div>
+          </a>
+          <!-- Add more items by copying a block above -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> Gennarino Conzemius · New York, NY</footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lb-ctrls">
+      <button class="lb-btn" id="closeLB" aria-label="Close">✕</button>
+    </div>
+    <div class="lb-chevs">
+      <button id="prevLB" aria-label="Previous">‹</button>
+      <button id="nextLB" aria-label="Next">›</button>
+    </div>
+    <img id="lbImg" alt="Artwork large view">
+  </div>
+
+  <script>
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // lightbox
+    const items = Array.from(document.querySelectorAll('.work-item'));
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const closeLB = document.getElementById('closeLB');
+    const nextLB = document.getElementById('nextLB');
+    const prevLB = document.getElementById('prevLB');
+    let idx = 0;
+    function openLB(i){
+      idx = i;
+      const a = items[idx];
+      lbImg.src = a.dataset.full || a.querySelector('img').src;
+      lbImg.alt = a.querySelector('img').alt || 'Artwork';
+      lb.removeAttribute('hidden'); document.body.style.overflow = 'hidden';
+    }
+    function close(){ lb.setAttribute('hidden',''); document.body.style.overflow = ''; }
+    function step(d){ idx = (idx + d + items.length) % items.length; openLB(idx); }
+    items.forEach((a,i)=>{ a.addEventListener('click',e=>{e.preventDefault(); openLB(i)}); a.style.cursor='zoom-in'; });
+    closeLB.addEventListener('click', close);
+    nextLB.addEventListener('click', e=>{e.stopPropagation(); step(1);});
+    prevLB.addEventListener('click', e=>{e.stopPropagation(); step(-1);});
+    lb.addEventListener('click', close);
+    window.addEventListener('keydown', e=>{
+      if(lb.hasAttribute('hidden')) return;
+      if(e.key==='Escape') close();
+      if(e.key==='ArrowRight') step(1);
+      if(e.key==='ArrowLeft') step(-1);
+    });
+  </script>
+</body>
+</html>
