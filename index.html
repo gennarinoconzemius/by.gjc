@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GJC — Fine Art & Illustration</title>
+    <meta name="description" content="Original paintings, drawings, and commissions by GJC. Charcoal, oil, acrylic, and watercolor works from a New York City based artist.">
+    <meta property="og:title" content="GJC — Fine Art & Illustration">
+    <meta property="og:description" content="Original paintings, drawings, and commissions. NYC-based artist.">
+    <meta property="og:image" content="Cat%20Closer.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080808;
+            --bg-elevated: #0e0e0e;
+            --text-primary: #f0ece4;
+            --text-secondary: #8a8478;
+            --text-muted: #5a564e;
+            --accent: #c4956a;
+            --accent-warm: #d4a574;
+            --accent-glow: rgba(196, 149, 106, 0.12);
+            --border: #1e1e1e;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'Outfit', system-ui, sans-serif;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: var(--accent); color: var(--bg); }
+
+        /* grain */
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 9998; opacity: 0.022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 256px;
+        }
+
+        /* ========== TOP BAR ========== */
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 300; padding: 1.4rem 2.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--serif); font-size: 1.4rem;
+            font-weight: 300; letter-spacing: 0.15em;
+            color: var(--text-primary); text-decoration: none;
+            text-transform: uppercase; z-index: 201;
+            position: relative;
+            transition: color 0.4s;
+        }
+
+        .nav-ig-top {
+            font-family: var(--sans); font-size: 0.65rem;
+            font-weight: 300; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text-secondary);
+            text-decoration: none; display: flex;
+            align-items: center; gap: 0.5rem;
+            transition: color 0.3s;
+        }
+        .nav-ig-top:hover { color: var(--accent); }
+        .nav-ig-top svg { width: 15px; height: 15px; }
+
+        /* ========== HAMBURGER ========== */
+        .hamburger {
+            width: 32px; height: 22px;
+            position: relative; z-index: 201;
+            cursor: pointer; background: none; border: none;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block; width: 100%; height: 1.5px;
+            background: var(--text-primary);
+            transition: all 0.4s var(--ease-out);
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* ========== FULL-SCREEN MENU OVERLAY ========== */
+        .menu-overlay {
+            position: fixed; inset: 0; z-index: 200;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s var(--ease-out);
+        }
+
+        .menu-overlay.open {
+            opacity: 1; pointer-events: all;
+        }
+
+        .menu-inner {
+            display: flex; gap: 6rem; align-items: center;
+            max-width: 1100px; width: 100%; padding: 0 3rem;
+        }
+
+        .menu-links {
+            list-style: none; flex: 1;
+        }
+
+        .menu-links li {
+            overflow: hidden;
+        }
+
+        .menu-links a {
+            display: flex; align-items: baseline; gap: 1rem;
+            font-family: var(--serif);
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 300; line-height: 1.4;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.3rem 0;
+            transform: translateY(110%);
+            transition: transform 0.6s var(--ease-out), color 0.3s;
+            position: relative;
+        }
+
+        .menu-overlay.open .menu-links a {
+            transform: translateY(0);
+        }
+
+        .menu-links li:nth-child(1) a { transition-delay: 0.08s; }
+        .menu-links li:nth-child(2) a { transition-delay: 0.14s; }
+        .menu-links li:nth-child(3) a { transition-delay: 0.2s; }
+        .menu-links li:nth-child(4) a { transition-delay: 0.26s; }
+
+        .menu-links a:hover { color: var(--accent); }
+
+        .menu-links a .num {
+            font-family: var(--sans); font-size: 0.65rem;
+            letter-spacing: 0.2em; color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        .menu-links a:hover .num { color: var(--accent); }
+
+        .menu-links a.active-link { color: var(--accent); }
+        .menu-links a.active-link .num { color: var(--accent); }
+
+        .menu-preview {
+            flex: 0.7;
+            position: relative;
+            height: 55vh;
+            overflow: hidden;
+        }
+
+        .menu-preview img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-out);
+        }
+
+        .menu-preview img.preview-visible {
+            opacity: 1;
+        }
+
+        .menu-footer {
+            position: absolute; bottom: 2.5rem; left: 2.5rem; right: 2.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.6rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text-muted);
+        }
+
+        .menu-footer a {
+            color: var(--text-muted); text-decoration: none;
+            transition: color 0.3s;
+        }
+        .menu-footer a:hover { color: var(--accent); }
+
+        /* ========== PAGES ========== */
+        .page {
+            position: fixed; inset: 0;
+            display: flex;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.6s var(--ease-out);
+            overflow-y: auto;
+            z-index: 1;
+        }
+
+        .page.active {
+            opacity: 1; pointer-events: all;
+            z-index: 10;
+        }
+
+        /* page entry animations */
+        .page .fade-in {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+        }
+        .page.active .fade-in { opacity: 1; transform: translateY(0); }
+        .page .fd1 { transition-delay: 0.15s; }
+        .page .fd2 { transition-delay: 0.25s; }
+        .page .fd3 { transition-delay: 0.38s; }
+        .page .fd4 { transition-delay: 0.5s; }
+        .page .fd5 { transition-delay: 0.62s; }
+
+        .page .slide-left {
+            opacity: 0; transform: translateX(-40px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+        }
+        .page.active .slide-left { opacity: 1; transform: translateX(0); }
+
+        .page .slide-right {
+            opacity: 0; transform: translateX(40px);
+            transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+        }
+        .page.active .slide-right { opacity: 1; transform: translateX(0); }
+
+        .page .scale-in {
+            opacity: 0; transform: scale(1.06);
+            transition: opacity 0.9s var(--ease-out), transform 1.2s var(--ease-out);
+        }
+        .page.active .scale-in { opacity: 1; transform: scale(1); }
+
+        /* ===== PAGE: HOME ===== */
+        .page-home {
+            align-items: flex-end;
+        }
+
+        .home-bg {
+            position: absolute; inset: 0;
+        }
+        .home-bg img {
+            width: 100%; height: 100%; object-fit: cover;
+            object-position: center 30%;
+            filter: brightness(0.3) saturate(0.8);
+        }
+        .home-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, var(--bg) 0%, rgba(8,8,8,0.45) 40%, rgba(8,8,8,0.1) 70%, rgba(8,8,8,0.3) 100%);
+        }
+
+        .home-content {
+            position: relative; z-index: 1;
+            padding: 0 3rem 6rem; width: 100%;
+        }
+        .home-tag {
+            font-size: 0.65rem; font-weight: 300;
+            letter-spacing: 0.4em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 1.5rem;
+        }
+        .home-title {
+            font-family: var(--serif);
+            font-size: clamp(4rem, 11vw, 10rem);
+            font-weight: 300; line-height: 0.88;
+            letter-spacing: -0.02em; margin-bottom: 1.5rem;
+        }
+        .home-title em { font-style: italic; color: var(--accent-warm); }
+        .home-sub {
+            font-size: 0.85rem; font-weight: 200;
+            letter-spacing: 0.06em; color: var(--text-secondary);
+            max-width: 420px; margin-bottom: 2.5rem;
+        }
+
+        .home-enter {
+            display: inline-flex; align-items: center; gap: 0.7rem;
+            font-family: var(--sans); font-size: 0.68rem; font-weight: 400;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--bg); background: var(--accent);
+            padding: 1rem 2.5rem; border: none;
+            cursor: pointer; text-decoration: none;
+            transition: all 0.4s var(--ease-out);
+        }
+        .home-enter:hover {
+            background: var(--accent-warm); transform: translateY(-2px);
+            box-shadow: 0 12px 40px var(--accent-glow);
+        }
+        .home-enter svg { width: 14px; height: 14px; transition: transform 0.3s var(--ease-out); }
+        .home-enter:hover svg { transform: translateX(4px); }
+
+        /* ===== PAGE: GALLERY ===== */
+        .page-gallery {
+            flex-direction: column;
+            padding: 6rem 3rem 3rem;
+        }
+
+        .gallery-head {
+            display: flex; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 2.5rem;
+        }
+        .gallery-head h1 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+        }
+        .gallery-head h1 em { font-style: italic; color: var(--accent-warm); }
+        .section-tag {
+            font-size: 0.6rem; font-weight: 400;
+            letter-spacing: 0.4em; text-transform: uppercase;
+            color: var(--accent); display: flex; align-items: center; gap: 1rem;
+        }
+        .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
+
+        .gallery-filters {
+            display: flex; gap: 1.2rem; margin-bottom: 2rem;
+        }
+        .filter-btn {
+            background: none; border: none;
+            font-family: var(--sans); font-size: 0.65rem;
+            font-weight: 300; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text-muted);
+            padding: 0.4rem 0; cursor: pointer;
+            position: relative; transition: color 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active { color: var(--text-primary); }
+        .filter-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 1px; background: var(--accent);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem; flex: 1;
+        }
+
+        .g-item {
+            position: relative; overflow: hidden;
+            cursor: pointer; aspect-ratio: 3/4;
+            background: var(--bg-elevated);
+        }
+        .g-item.landscape { aspect-ratio: 4/3; }
+
+        .g-item img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.7s var(--ease-out), filter 0.5s;
+        }
+        .g-item:hover img { transform: scale(1.05); filter: brightness(0.6); }
+
+        .g-overlay {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            justify-content: flex-end; padding: 1.5rem;
+            opacity: 0; transition: opacity 0.35s;
+        }
+        .g-item:hover .g-overlay { opacity: 1; }
+        .g-overlay h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; }
+        .g-overlay span {
+            font-size: 0.6rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--accent); margin-top: 0.2rem;
+        }
+
+        /* ===== PAGE: PIECE DETAIL (split) ===== */
+        .page-piece {
+            align-items: stretch;
+        }
+
+        .piece-split {
+            display: grid; grid-template-columns: 1fr 1fr;
+            width: 100%; height: 100%;
+        }
+
+        .piece-img-side {
+            position: relative; overflow: hidden; cursor: pointer;
+        }
+        .piece-img-side img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+
+        .piece-text-side {
+            display: flex; flex-direction: column;
+            justify-content: center; padding: 4rem 5rem;
+        }
+        .piece-text-side h1 {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 300; line-height: 1;
+            margin-bottom: 1rem; margin-top: 1.5rem;
+        }
+        .piece-text-side h1 em { font-style: italic; color: var(--accent-warm); }
+        .piece-medium-tag {
+            font-size: 0.7rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 2rem;
+        }
+        .piece-desc {
+            font-size: 0.88rem; line-height: 1.85;
+            color: var(--text-secondary); max-width: 420px;
+        }
+        .piece-year-big {
+            font-family: var(--serif); font-size: 4rem;
+            font-weight: 300; color: var(--border);
+            margin-top: 2.5rem; line-height: 1;
+        }
+
+        .piece-meta-row {
+            display: flex; gap: 2.5rem; margin-bottom: 2rem;
+            padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);
+        }
+        .pm-item { display: flex; flex-direction: column; gap: 0.3rem; }
+        .pm-label {
+            font-size: 0.55rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--text-muted);
+        }
+        .pm-value { font-family: var(--serif); font-size: 1rem; color: var(--text-secondary); }
+
+        .piece-nav {
+            display: flex; gap: 1rem; margin-top: 3rem;
+        }
+        .piece-nav-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--sans); font-size: 0.6rem; font-weight: 400;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--text-muted); background: none;
+            border: 1px solid var(--border); padding: 0.7rem 1.5rem;
+            cursor: pointer; transition: all 0.3s var(--ease-out);
+        }
+        .piece-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .piece-nav-btn svg { width: 12px; height: 12px; }
+
+        /* ===== PAGE: ABOUT ===== */
+        .page-about {
+            align-items: center; background: var(--bg-elevated);
+        }
+        .about-layout {
+            display: grid; grid-template-columns: 0.45fr 1fr;
+            gap: 5rem; align-items: center; width: 100%;
+            max-width: 1300px; margin: 0 auto; padding: 0 3rem;
+        }
+        .about-portrait { position: relative; }
+        .about-portrait img {
+            width: 100%; display: block; filter: grayscale(0.1);
+            transition: filter 0.5s;
+        }
+        .about-portrait:hover img { filter: grayscale(0); }
+        .about-portrait::after {
+            content: ''; position: absolute;
+            top: 1rem; left: 1rem; right: -1rem; bottom: -1rem;
+            border: 1px solid var(--accent); opacity: 0.25; z-index: -1;
+        }
+        .about-content h1 {
+            font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 300; line-height: 1.15; margin-bottom: 2rem;
+        }
+        .about-content h1 em { font-style: italic; color: var(--accent-warm); }
+        .about-text {
+            font-size: 0.88rem; line-height: 1.9;
+            color: var(--text-secondary); margin-bottom: 1.2rem; max-width: 560px;
+        }
+        .about-stats {
+            display: flex; gap: 3rem; margin-top: 2.5rem;
+            padding-top: 2rem; border-top: 1px solid var(--border);
+        }
+        .stat-number {
+            font-family: var(--serif); font-size: 2rem;
+            font-weight: 300; color: var(--accent); display: block;
+        }
+        .stat-label {
+            font-size: 0.6rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--text-muted);
+        }
+
+        /* ===== PAGE: COMMISSIONS ===== */
+        .page-commission {
+            align-items: center; justify-content: center;
+            text-align: center;
+        }
+        .page-commission::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 700px; height: 700px; transform: translate(-50%, -50%);
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .comm-inner { position: relative; z-index: 1; padding: 0 2rem; }
+        .comm-inner h1 {
+            font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 300; line-height: 1; margin-bottom: 1.5rem;
+        }
+        .comm-inner h1 em { font-style: italic; color: var(--accent-warm); }
+        .comm-inner p {
+            font-size: 0.9rem; color: var(--text-secondary);
+            max-width: 480px; margin: 0 auto 3rem; line-height: 1.85;
+        }
+        .comm-buttons { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            padding: 1rem 2.5rem; font-family: var(--sans);
+            font-size: 0.68rem; font-weight: 400; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--bg);
+            background: var(--accent); border: none;
+            text-decoration: none; cursor: pointer;
+            transition: all 0.4s var(--ease-out);
+        }
+        .btn-primary:hover {
+            background: var(--accent-warm); transform: translateY(-2px);
+            box-shadow: 0 12px 40px var(--accent-glow);
+        }
+        .btn-primary svg { width: 14px; height: 14px; transition: transform 0.3s var(--ease-out); }
+        .btn-primary:hover svg { transform: translateX(4px); }
+
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            padding: 1rem 2.5rem; font-family: var(--sans);
+            font-size: 0.68rem; font-weight: 400; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--text-primary);
+            background: transparent; border: 1px solid var(--border);
+            text-decoration: none; transition: all 0.4s var(--ease-out);
+        }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+        .btn-outline svg { width: 15px; height: 15px; }
+
+        .comm-footer {
+            position: absolute; bottom: 2rem; left: 3rem; right: 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.04em;
+        }
+        .comm-footer a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+        .comm-footer a:hover { color: var(--accent); }
+        .comm-footer svg { width: 15px; height: 15px; }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed; inset: 0; z-index: 5000;
+            background: rgba(0,0,0,0.96); display: flex;
+            align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.35s;
+            backdrop-filter: blur(30px);
+        }
+        .lightbox.open { opacity: 1; pointer-events: all; }
+        .lightbox img {
+            max-width: 88vw; max-height: 88vh; object-fit: contain;
+            transform: scale(0.92); transition: transform 0.5s var(--ease-out);
+        }
+        .lightbox.open img { transform: scale(1); }
+        .lb-close {
+            position: absolute; top: 2rem; right: 2rem;
+            width: 44px; height: 44px; background: none;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text-primary); font-size: 1.3rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .lb-close:hover { border-color: var(--accent); color: var(--accent); }
+        .lb-caption {
+            position: absolute; bottom: 2rem; left: 50%;
+            transform: translateX(-50%); text-align: center;
+        }
+        .lb-caption h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.3rem; }
+        .lb-caption span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .piece-split { grid-template-columns: 1fr; }
+            .piece-img-side { height: 45vh; }
+            .piece-text-side { padding: 2rem 3rem; justify-content: flex-start; }
+            .piece-year-big { display: none; }
+            .about-layout { grid-template-columns: 1fr; gap: 3rem; padding: 0 2rem; }
+            .about-portrait { max-width: 280px; }
+            .menu-preview { display: none; }
+            .menu-inner { justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .topbar { padding: 1.2rem 1.5rem; }
+            .nav-ig-top { display: none; }
+            .page-gallery { padding: 5rem 1.5rem 2rem; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .gallery-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .gallery-filters { flex-wrap: wrap; gap: 0.8rem; }
+            .piece-split { grid-template-columns: 1fr; }
+            .piece-img-side { height: 40vh; }
+            .piece-text-side { padding: 1.5rem; }
+            .piece-meta-row { flex-wrap: wrap; gap: 1.5rem; }
+            .about-layout { padding: 0 1.5rem; }
+            .about-stats { gap: 2rem; flex-wrap: wrap; }
+            .comm-buttons { flex-direction: column; align-items: center; }
+            .comm-footer {
+                flex-direction: column; gap: 1rem;
+                text-align: center; bottom: 1rem; left: 1rem; right: 1rem;
+            }
+            .menu-links a { font-size: 2rem; }
+            .home-content { padding: 0 1.5rem 4rem; }
+        }
+
+        @media (max-width: 480px) {
+            .home-title { font-size: 3.2rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .comm-inner h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <a href="#" class="nav-logo" data-nav="home">GJC</a>
+        <a href="https://www.instagram.com/by.gjc/" target="_blank" class="nav-ig-top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+            @by.gjc
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <!-- FULL-SCREEN MENU -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-inner">
+            <ul class="menu-links">
+                <li><a href="#" data-nav="home" data-preview="Cat%20Closer.jpg"><span class="num">01</span> Home</a></li>
+                <li><a href="#" data-nav="gallery" data-preview="Cat%20further.jpg"><span class="num">02</span> Gallery</a></li>
+                <li><a href="#" data-nav="about" data-preview="Me.jpg"><span class="num">03</span> About</a></li>
+                <li><a href="#" data-nav="commission" data-preview="ok%20love%20you.jpg"><span class="num">04</span> Commission</a></li>
+            </ul>
+            <div class="menu-preview" id="menuPreview">
+                <img src="Cat%20Closer.jpg" alt="" class="preview-visible" data-for="home">
+                <img src="Cat%20further.jpg" alt="" data-for="gallery">
+                <img src="Me.jpg" alt="" data-for="about">
+                <img src="ok%20love%20you.jpg" alt="" data-for="commission">
+            </div>
+        </div>
+        <div class="menu-footer">
+            <span>&copy; 2026 GJC</span>
+            <a href="https://www.instagram.com/by.gjc/" target="_blank">Instagram &rarr;</a>
+        </div>
+    </div>
+
+    <!-- ==================== PAGES ==================== -->
+
+    <!-- HOME -->
+    <div class="page page-home active" id="page-home">
+        <div class="home-bg">
+            <img class="scale-in" src="Cat%20Closer.jpg" alt="Featured painting" loading="eager">
+        </div>
+        <div class="home-content">
+            <p class="home-tag fade-in fd1">New York City &mdash; Fine Art</p>
+            <h1 class="home-title fade-in fd2">Art by<br><em>GJC</em></h1>
+            <p class="home-sub fade-in fd3">Original paintings, drawings &amp; commissions across charcoal, oil, acrylic, and watercolor.</p>
+            <button class="home-enter fade-in fd4" data-nav="gallery">
+                View the Collection
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="page page-gallery" id="page-gallery">
+        <div class="gallery-head fade-in fd1">
+            <div>
+                <div class="section-tag">Selected Works</div>
+                <h1>The <em>Collection</em></h1>
+            </div>
+        </div>
+        <div class="gallery-filters fade-in fd2">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="oil">Oil</button>
+            <button class="filter-btn" data-filter="charcoal">Charcoal</button>
+            <button class="filter-btn" data-filter="acrylic">Acrylic</button>
+            <button class="filter-btn" data-filter="watercolor">Watercolor</button>
+            <button class="filter-btn" data-filter="mixed">Mixed Media</button>
+        </div>
+        <div class="gallery-grid fade-in fd3">
+            <div class="g-item" data-category="oil" data-nav="piece-cathabitat">
+                <img src="Cat%20Closer.jpg" alt="Cat Habitat" loading="lazy">
+                <div class="g-overlay"><h3>Cat Habitat</h3><span>Oil on Canvas &middot; November 2024</span></div>
+            </div>
+            <div class="g-item" data-category="charcoal" data-nav="piece-bearinthewild">
+                <img src="5AD25EBB-4675-4B16-B920-3D2FF74B7393.jpg" alt="Bear in the Wild" loading="lazy">
+                <div class="g-overlay"><h3>Bear in the Wild</h3><span>Charcoal on Paper &middot; December 2022</span></div>
+            </div>
+            <div class="g-item" data-category="acrylic" data-lightbox="IMG_9650.jpg" data-title="Jellyfish" data-medium="Acrylic on Canvas &middot; May 2023">
+                <img src="IMG_9650.jpg" alt="Jellyfish" loading="lazy">
+                <div class="g-overlay"><h3>Jellyfish</h3><span>Acrylic &middot; May 2023</span></div>
+            </div>
+            <div class="g-item" data-category="acrylic" data-lightbox="IMG_5061.jpg" data-title="Herro" data-medium="Acrylic on Canvas &middot; February 2024">
+                <img src="IMG_5061.jpg" alt="Herro" loading="lazy">
+                <div class="g-overlay"><h3>Herro</h3><span>Acrylic &middot; February 2024</span></div>
+            </div>
+            <div class="g-item" data-category="charcoal" data-lightbox="IMG_7057.jpg" data-title="Bear with a Red Hat" data-medium="Charcoal &amp; Color Pencil &middot; January 2023">
+                <img src="IMG_7057.jpg" alt="Bear with a Red Hat" loading="lazy">
+                <div class="g-overlay"><h3>Bear with a Red Hat</h3><span>Charcoal &amp; Pencil &middot; January 2023</span></div>
+            </div>
+            <div class="g-item" data-category="watercolor" data-lightbox="ok%20love%20you.jpg" data-title="Ok Love You Bye" data-medium="Watercolor &middot; February 2026">
+                <img src="ok%20love%20you.jpg" alt="Ok Love You Bye" loading="lazy">
+                <div class="g-overlay"><h3>Ok Love You Bye</h3><span>Watercolor &middot; February 2026</span></div>
+            </div>
+            <div class="g-item landscape" data-category="mixed" data-lightbox="IMG_7454.jpg" data-title="Memory Collage" data-medium="Mixed Media Collage &middot; February 2023">
+                <img src="IMG_7454.jpg" alt="Memory Collage" loading="lazy" style="object-position:center 35%;">
+                <div class="g-overlay"><h3>Memory Collage</h3><span>Mixed Media &middot; February 2023</span></div>
+            </div>
+            <div class="g-item" data-category="watercolor" data-lightbox="ok%20love%20you%202.jpg" data-title="Ok Love You Bye &mdash; Pair" data-medium="Watercolor on Paper &middot; February 2026">
+                <img src="ok%20love%20you%202.jpg" alt="Ok Love You Bye pair" loading="lazy">
+                <div class="g-overlay"><h3>Ok Love You Bye &mdash; Pair</h3><span>Watercolor &middot; February 2026</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIECE: CAT HABITAT -->
+    <div class="page page-piece" id="page-piece-cathabitat">
+        <div class="piece-split">
+            <div class="piece-img-side slide-left" data-lightbox="Cat%20Closer.jpg" data-title="Cat Habitat" data-medium="Oil on Canvas &middot; November 2024">
+                <img src="Cat%20Closer.jpg" alt="Cat Habitat" loading="lazy">
+            </div>
+            <div class="piece-text-side">
+                <div class="section-tag fade-in fd1">Featured Work</div>
+                <h1 class="fade-in fd2"><em>Cat Habitat</em></h1>
+                <div class="piece-meta-row fade-in fd3">
+                    <div class="pm-item"><span class="pm-label">Medium</span><span class="pm-value">Oil on Canvas</span></div>
+                    <div class="pm-item"><span class="pm-label">Date</span><span class="pm-value">November 2024</span></div>
+                    <div class="pm-item"><span class="pm-label">Status</span><span class="pm-value">Collection</span></div>
+                </div>
+                <p class="piece-desc fade-in fd4">A cheetah and a black panther share a quiet evening &mdash; martinis on the table, cigarette smoke curling through the air. Two predators at rest, draped in the kind of ease that only comes after the hunt. Lush tropicals frame a scene that's equal parts film noir and jungle lounge.</p>
+                <div class="piece-nav fade-in fd5">
+                    <button class="piece-nav-btn" data-nav="gallery">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Gallery
+                    </button>
+                    <button class="piece-nav-btn" data-nav="piece-bearinthewild">
+                        Next Piece
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIECE: BEAR IN THE WILD -->
+    <div class="page page-piece" id="page-piece-bearinthewild">
+        <div class="piece-split">
+            <div class="piece-img-side slide-left" data-lightbox="5AD25EBB-4675-4B16-B920-3D2FF74B7393.jpg" data-title="Bear in the Wild" data-medium="Charcoal on Paper &middot; December 2022">
+                <img src="5AD25EBB-4675-4B16-B920-3D2FF74B7393.jpg" alt="Bear in the Wild" loading="lazy">
+            </div>
+            <div class="piece-text-side">
+                <div class="section-tag fade-in fd1">Charcoal</div>
+                <h1 class="fade-in fd2"><em>Bear in the Wild</em></h1>
+                <div class="piece-meta-row fade-in fd3">
+                    <div class="pm-item"><span class="pm-label">Medium</span><span class="pm-value">Charcoal on Paper</span></div>
+                    <div class="pm-item"><span class="pm-label">Date</span><span class="pm-value">December 2022</span></div>
+                </div>
+                <p class="piece-desc fade-in fd4">Raw power erupting from graphite and shadow. A grizzly mid-roar against a storm-dark sky, rendered entirely in charcoal &mdash; every strand of fur, every muscle tensed. This is the piece that started the animal series.</p>
+                <div class="piece-nav fade-in fd5">
+                    <button class="piece-nav-btn" data-nav="piece-cathabitat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Previous
+                    </button>
+                    <button class="piece-nav-btn" data-nav="gallery">
+                        Gallery
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="page page-about" id="page-about">
+        <div class="about-layout">
+            <div class="about-portrait slide-left">
+                <img src="Me.jpg" alt="Portrait of the artist">
+            </div>
+            <div class="about-content">
+                <div class="section-tag fade-in fd1">About the Artist</div>
+                <h1 class="fade-in fd2">Creating from<br><em>New York City</em></h1>
+                <p class="about-text fade-in fd3">I'm a multidisciplinary artist working across charcoal, oil, acrylic, watercolor, and mixed media. My work explores the tension between the wild and the refined &mdash; animals in human contexts, raw nature rendered with care, and quiet moments in loose, expressive strokes.</p>
+                <p class="about-text fade-in fd4">Whether it's a bear roaring from charcoal darkness in Bear in the Wild or big cats sharing cocktails in Cat Habitat, each piece invites you somewhere the familiar feels a little untamed. Always open to commissions and collaborations.</p>
+                <div class="about-stats fade-in fd5">
+                    <div><span class="stat-number">5+</span><span class="stat-label">Mediums</span></div>
+                    <div><span class="stat-number">NYC</span><span class="stat-label">Based In</span></div>
+                    <div><span class="stat-number">Open</span><span class="stat-label">Commissions</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMMISSION -->
+    <div class="page page-commission" id="page-commission">
+        <div class="comm-inner">
+            <div class="section-tag fade-in fd1" style="justify-content:center;">Commissions</div>
+            <h1 class="fade-in fd2">Want something<br><em>made for you?</em></h1>
+            <p class="fade-in fd3">I take on a limited number of commissions each season. Whether it's a portrait, a custom painting for your space, or a gift that means something &mdash; let's talk.</p>
+            <div class="comm-buttons fade-in fd4">
+                <a href="https://www.instagram.com/by.gjc/" target="_blank" class="btn-primary">
+                    Message on Instagram
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="https://www.instagram.com/by.gjc/" target="_blank" class="btn-outline">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+                    @by.gjc
+                </a>
+            </div>
+        </div>
+        <div class="comm-footer">
+            <span>&copy; 2026 GJC. All works and images are original.</span>
+            <a href="https://www.instagram.com/by.gjc/" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" aria-label="Close">&times;</button>
+        <img src="" alt="">
+        <div class="lb-caption"><h3></h3><span></span></div>
+    </div>
+
+    <script>
+        // ===== NAVIGATION =====
+        const pages = document.querySelectorAll('.page');
+        const hamburger = document.getElementById('hamburger');
+        const overlay = document.getElementById('menuOverlay');
+        const menuLinks = overlay.querySelectorAll('[data-nav]');
+        const previewImgs = document.querySelectorAll('#menuPreview img');
+        let currentPageId = 'home';
+
+        function navigateTo(pageId) {
+            if (!document.getElementById('page-' + pageId)) return;
+
+            // close menu
+            hamburger.classList.remove('open');
+            overlay.classList.remove('open');
+
+            // switch pages
+            pages.forEach(p => p.classList.remove('active'));
+
+            // small delay so exit animation can play
+            setTimeout(() => {
+                const target = document.getElementById('page-' + pageId);
+                target.classList.add('active');
+                // reset scroll position for gallery
+                target.scrollTop = 0;
+                currentPageId = pageId;
+
+                // update active link styling
+                overlay.querySelectorAll('.menu-links a').forEach(a => {
+                    a.classList.toggle('active-link', a.dataset.nav === pageId);
+                });
+            }, 80);
+        }
+
+        // all [data-nav] elements navigate
+        document.addEventListener('click', (e) => {
+            const navEl = e.target.closest('[data-nav]');
+            if (navEl) {
+                e.preventDefault();
+                navigateTo(navEl.dataset.nav);
+            }
+        });
+
+        // hamburger toggle
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+        // ESC closes menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (lightbox.classList.contains('open')) {
+                    closeLB();
+                } else if (overlay.classList.contains('open')) {
+                    hamburger.classList.remove('open');
+                    overlay.classList.remove('open');
+                }
+            }
+        });
+
+        // menu preview on hover
+        menuLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                const target = link.dataset.nav;
+                previewImgs.forEach(img => {
+                    img.classList.toggle('preview-visible', img.dataset.for === target);
+                });
+            });
+        });
+
+        // ===== GALLERY FILTERS =====
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.g-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const f = btn.dataset.filter;
+                galleryItems.forEach(item => {
+                    if (f === 'all' || item.dataset.category === f) {
+                        item.style.display = '';
+                        requestAnimationFrame(() => { item.style.opacity = '1'; item.style.transform = 'scale(1)'; });
+                    } else {
+                        item.style.opacity = '0'; item.style.transform = 'scale(0.95)';
+                        setTimeout(() => { item.style.display = 'none'; }, 300);
+                    }
+                });
+            });
+        });
+
+        // gallery items transition style
+        galleryItems.forEach(item => {
+            item.style.transition = 'opacity 0.3s, transform 0.3s';
+        });
+
+        // ===== LIGHTBOX =====
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = lightbox.querySelector('img');
+        const lbCaption = lightbox.querySelector('.lb-caption');
+
+        document.querySelectorAll('[data-lightbox]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                // don't trigger if this element also has data-nav (gallery items that link to detail pages)
+                if (el.dataset.nav) return;
+                e.stopPropagation();
+                lbImg.src = el.dataset.lightbox;
+                lbImg.alt = el.dataset.title || '';
+                lbCaption.querySelector('h3').textContent = el.dataset.title || '';
+                lbCaption.querySelector('span').textContent = el.dataset.medium || '';
+                lightbox.classList.add('open');
+            });
+        });
+
+        lightbox.querySelector('.lb-close').addEventListener('click', closeLB);
+        lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLB(); });
+        function closeLB() { lightbox.classList.remove('open'); }
+    </script>
+</body>
+</html>
